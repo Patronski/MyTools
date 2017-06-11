@@ -116,6 +116,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(305, 421);
             this.Controls.Add(this.buttonUncomment);
             this.Controls.Add(this.buttonComment);
@@ -126,7 +127,7 @@
             this.Controls.Add(this.buttonSelectFolder);
             this.Controls.Add(this.richTextBoxSelectedFolder);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Comment/Uncomment";
             this.ResumeLayout(false);
             this.PerformLayout();
 

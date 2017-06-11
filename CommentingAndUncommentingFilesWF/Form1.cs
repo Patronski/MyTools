@@ -67,8 +67,8 @@ namespace CommentingAndUncommentingFilesWF
                     commented++;
                 }
             }
-
-            MessageBox.Show($"Commented files: {commented}");
+            
+            MessageBox.Show($"Commented files: {commented}", "Compleated!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void buttonUncomment_Click(object sender, EventArgs e)
@@ -99,7 +99,7 @@ namespace CommentingAndUncommentingFilesWF
                 }
             }
 
-            MessageBox.Show($"Uncommented files: {uncommented}");
+            MessageBox.Show($"Uncommented files: {uncommented}", "Compleated!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
