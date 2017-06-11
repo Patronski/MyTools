@@ -15,29 +15,51 @@ namespace CommentingAndUncommentingFilesWF
     public partial class Form1 : Form
     {
         private FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-        private string selectedPath;
+        private string selectedFolder;
 
         public Form1()
         {
             InitializeComponent();
+            selectedFolder = @"D:\Dev\VCSharpPrj\Bella\SEE_EED_Process_ToolRules";
+            richTextBoxSelectedFolder.Text = selectedFolder;
+
+            LoadFilesFromSelectedFolder();
         }
 
-        private void ChooseFolder()
+        private void LoadFilesFromSelectedFolder()
         {
-            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                selectedPath = folderBrowserDialog.SelectedPath;
-                richTextBoxSelectedFolder.Text = folderBrowserDialog.SelectedPath;
-
-                var files = Directory.GetFiles(selectedPath, "*.cs");
-
+                var files = Directory.GetFiles(selectedFolder, "*.cs");
                 textBoxAllFilesCount.Text = files.Length.ToString();
+                listBoxFiles.Items.Clear();
 
                 foreach (var file in files)
                 {
                     string fileName = Path.GetFileName(file);
                     listBoxFiles.Items.Add(fileName);
                 }
+                buttonComment.Enabled = true;
+                buttonUncomment.Enabled = true;
+            }
+            catch(DirectoryNotFoundException e)
+            {
+                textBoxAllFilesCount.Text = "Error.";
+                listBoxFiles.Items.Add("Error. Directory not exists!");
+                buttonComment.AccessibleDefaultActionDescription = "default";
+                buttonComment.Enabled = false;
+                buttonUncomment.Enabled = false;
+            }
+        }
+
+        private void ChooseFolder()
+        {
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                selectedFolder = folderBrowserDialog.SelectedPath;
+                richTextBoxSelectedFolder.Text = folderBrowserDialog.SelectedPath;
+
+                LoadFilesFromSelectedFolder();
             }
         }
 
@@ -51,7 +73,7 @@ namespace CommentingAndUncommentingFilesWF
             int commented = 0;
             foreach (var selectedFile in this.listBoxFiles.SelectedItems)
             {
-                var fullFileName = Path.Combine(selectedPath, selectedFile.ToString());
+                var fullFileName = Path.Combine(selectedFolder, selectedFile.ToString());
                 var allLines = File.ReadAllLines(fullFileName);
 
                 if (!allLines[0].StartsWith("//COMMENTED BY DONCHO\u2122"))
@@ -76,7 +98,7 @@ namespace CommentingAndUncommentingFilesWF
             int uncommented = 0;
             foreach (var selectedFile in this.listBoxFiles.SelectedItems)
             {
-                var fullFileName = Path.Combine(selectedPath, selectedFile.ToString());
+                var fullFileName = Path.Combine(selectedFolder, selectedFile.ToString());
                 var allLines = File.ReadAllLines(fullFileName);
 
                 if (allLines[0].StartsWith("//COMMENTED BY DONCHO\u2122"))
